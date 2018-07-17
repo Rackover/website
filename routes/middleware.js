@@ -18,7 +18,8 @@ exports.initLocals = function(req, res, next) {
 	locals.cNavLinks = [
 		{ label: 'Tournaments',		key: 'tournaments',		href: '/competitive/tournaments' },
 		{ label: '1v1 Leaderboards',		key: '1v1',		href: '/competitive/leaderboards/1v1' },
-		{ label: 'Global Leaderboards',		key: 'global',		href: '/competitive/leaderboards/global' }
+		{ label: 'Global Leaderboards',		key: 'global',		href: '/competitive/leaderboards/global' },
+		{ label: 'Ladder week',		key: 'ladderWeek',		href: '/competitive/leaderboards/ladderWeek' }
 	];
 
 	next();

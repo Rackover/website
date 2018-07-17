@@ -1,0 +1,55 @@
+extends competitive_nav
+
+mixin pagination(category)
+  .row.btn-top
+    .col-md-3.btn-top.pull-left.text-left.nopadding
+      button(class="btn btn-primary first disabled", id="navigation-first-"+category) First
+      button(class="btn btn-primary btn-spacing previous disabled", id="navigation-previous-"+category) Previous
+    .col-md-3.col-md-offset-6.btn-top.pull-right.text-right.nopadding
+      button(class="btn btn-primary next", id="navigation-next-"+category) Next
+      button(class="btn btn-primary btn-spacing last", id="navigation-last-"+category) Last
+
+block cContent
+
+  br
+  
+  h2.text-center #{ratingTypeTitle} Leaderboards
+  
+  br
+  
+  //-
+      .featurette
+        .featurette-inner.text-center
+          form(role="form").search.has-button
+            .form-group
+              input(type="text" class="form-control" data-autofirst placeholder="Player name...")#searchbar
+              button(class="btn btn-default" type="button" id="forget-search") Forget Search
+
+
+  #stats
+  
+  each data,category in rankingCategories
+      h2.text-center #{data.categoryName}
+      .table-responsive
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th #
+              th Player
+              th Rating
+              th Score
+              th W/L/D
+              th Hours played
+          tbody(id='players'+category)
+      +pagination(category)
+
+  br
+
+block js
+  script(type='text/javascript').
+    var apiURL = !{JSON.stringify(apiURL)};
+    var ratingTypeTitle = !{JSON.stringify(ratingTypeTitle)};
+    var ratingType = !{JSON.stringify(ratingType)};
+    var members = '!{JSON.stringify(members)}';
+    var rankingCategories = '!{JSON.stringify(rankingCategories)}';
+  script(src="/js/ladderWeek.min.js")

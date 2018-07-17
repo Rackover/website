@@ -123,6 +123,7 @@ app.get('/calendar', require(routes + 'calendar'));
 app.get('/competitive/tournaments', require(routes + 'tournaments'));
 app.get('/competitive/leaderboards/1v1', require(routes + '1v1'));
 app.get('/competitive/leaderboards/global', require(routes + 'global'));
+app.get('/competitive/leaderboards/ladderWeek', require(routes + 'ladderWeek'));
 app.get('/news/', require(routes + 'blog'));
 app.get('/category/:category/page/:page', require(routes + 'blog'));
 app.get('/news/search/:search/page/:page', require(routes + 'blog'));
@@ -201,10 +202,12 @@ if (process.env.NODE_ENV === 'development') {
 
 let extractor = require("./scripts/extractor");
 let getLatestClientRelease = require("./scripts/getLatestClientRelease");
+let updateLadderWeek = require("./scripts/updateLadderWeek");
 
 // Run scripts initially on startup
 extractor.run();
 getLatestClientRelease.run();
+updateLadderWeek.run();
 
 // Run leaderboard extractor every minute
 setTimeout(() => {
@@ -223,6 +226,15 @@ setTimeout(() => {
 		console.error("Error while fetching latest client release!", e);
 	}
 }, 15 * 60 * 1000);
+
+// Update ladder week every hour
+setTimeout(() => {
+	try {
+		updateLadderWeek.run();
+	} catch (e) {
+		console.error("Error while updating ladder week!", e);
+	}
+}, 60 * 60 * 1000);
 
 //Start and listen on port
 app.listen(process.env.PORT, function () {
